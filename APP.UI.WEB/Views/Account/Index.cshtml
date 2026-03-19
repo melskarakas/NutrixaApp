@@ -1,0 +1,132 @@
+﻿@model users
+@    using Microsoft.Extensions.Localization
+@    using Microsoft.AspNetCore.Localization
+@inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
+@{
+    ViewData["Title"] = SharedLocalizer["MyProfile"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    string culture = requestCulture.RequestCulture.Culture.Name;
+}
+<style>
+    .borderless {
+        border: none !important;
+    }
+</style>
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h3 class="card-title">@SharedLocalizer["MyProfile"]</h3>
+        <div class="card-toolbar">
+
+        </div>
+    </div>
+    <div class="card-body">
+        @Html.HiddenFor(x => x.id)
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">@SharedLocalizer["FullName"]</label>
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input type="text" name="company" class="form-control form-control-lg form-control-solid" placeholder="@SharedLocalizer["FullName"]" value="@Model.name_surname" id="full_name">
+            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label  fw-semibold fs-6">@SharedLocalizer["Email"]</label>
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input type="text" name="company" class="form-control form-control-lg form-control-solid" placeholder="@SharedLocalizer["Email"]" value="@Model.email" id="email">
+            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label  fw-semibold fs-6">@SharedLocalizer["PhoneNo"]</label>
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input type="text" name="company" class="form-control form-control-lg form-control-solid" placeholder="@SharedLocalizer["PhoneNo"]" value="@Model.phone_number" id="phone">
+            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label required fw-semibold fs-6">@SharedLocalizer["Username"]</label>
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <input type="text" name="company" class="form-control form-control-lg form-control-solid" placeholder="Company name" value="@Model.user_name" id="username">
+            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label  fw-semibold fs-6">@SharedLocalizer["CurrentPwd"]</label>
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <div class="input-group mb-5">
+                    <input type="password" class="form-control form-control-lg form-control-solid" placeholder="@SharedLocalizer["CurrentPwd"]" aria-label="@SharedLocalizer["CurrentPwd"]" aria-describedby="basic-addon2" id="current_pwd">
+                    <span class="input-group-text borderless" id="basic-addon2">
+                        <i class="fa fa-eye" style="cursor:pointer;" id="current" onclick="show('current_pwd')"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label  fw-semibold fs-6">@SharedLocalizer["NewPwd"]</label>
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+
+                <div class="input-group mb-5">
+                    <input type="password" class="form-control form-control-lg form-control-solid" placeholder="@SharedLocalizer["NewPwd"]" aria-label="@SharedLocalizer["NewPwd"]" aria-describedby="basic-addon2" id="new_pwd">
+                    <span class="input-group-text borderless" id="basic-addon2">
+                        <i class="fa fa-eye" style="cursor:pointer;" id="new" onclick="show('new_pwd')"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-6">
+            <label class="col-lg-4 col-form-label  fw-semibold fs-6">@SharedLocalizer["RenewPwd"]</label>
+            <div class="col-lg-8 fv-row fv-plugins-icon-container">
+                <div class="input-group mb-5">
+                    <input type="password" class="form-control form-control-lg form-control-solid" placeholder="@SharedLocalizer["RenewPwd"]" aria-label="@SharedLocalizer["RenewPwd"]" aria-describedby="basic-addon2" id="renew_pwd">
+                    <span class="input-group-text borderless" id="basic-addon2">
+                        <i class="fa fa-eye-slash" style="cursor:pointer;" id="renew" onclick="show('renew_pwd')"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <button type="button" class="btn btn-primary" onclick="save()">@SharedLocalizer["SaveChanges"]</button>
+    </div>
+</div>
+<script>
+    function show(id) {
+        var iconId = id.split('_')[0];
+        const input = document.getElementById(id);
+        if (input.type === "password") {
+            document.getElementById(iconId).className = "fa fa-eye-slash";
+            input.type = "text";
+        } else {
+            document.getElementById(iconId).className = "fa fa-eye";
+            input.type = "password";
+        }
+    }
+    function save() {
+        var id = $("#id").val();
+        var full_name = $("#full_name").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        var username = $("#username").val();
+        var current_pwd = $("#current_pwd").val();
+        var new_pwd = $("#new_pwd").val();
+        var renew_pwd = $("#renew_pwd").val();
+        if (full_name != '' && username != '') {
+            if (new_pwd == renew_pwd) {
+                debugger;
+                $.post("/Account/Save", { id: id, full_name: full_name, email: email, phone: phone, username: username, current_pwd: current_pwd, new_pwd: new_pwd },
+                    function (data, textStatus, jqXHR) {
+                        debugger;
+                        if (data.success) {
+                            toastr.success(data.message);
+                            window.location.reload();
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }
+                );
+            } else {
+                toastr.warning("Şifreler aynı olmalıdır.");
+            }
+        } else {
+            toastr.warning("Yıldızlı alanlar zorunludur.");
+        }
+
+
+    }
+</script>

@@ -1,0 +1,102 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
+@{
+    ViewData["Title"] = SharedLocalizer["Homepage"];
+    int aylik = ViewBag.AYLIK;
+    int aylikOkunan = ViewBag.AYLIK_OKUNAN;
+    int gunluk = ViewBag.GUNLUK;
+    int gunlukOkunan = ViewBag.GUNLUK_OKUNAN;
+}
+<div class="row gy-5 gx-xl-10">
+    <div class="col-xl-12 mb-5 mb-xl-10">
+        <div class="row g-lg-5 g-xl-10">
+            <div class="col-md-6 col-xl-6 mb-5 mb-xl-10">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card overflow-hidden mb-5 mb-xl-10">
+                            <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
+                                <div class="mb-4 px-9">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="mb">@aylik</span>
+                                        <span class="d-flex align-items-end text-gray-500 fs-6 fw-semibold"></span>
+                                    </div>
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["MonthlyBarcode"]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card overflow-hidden mb-5 mb-xl-10">
+                            <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
+                                <div class="mb-4 px-9">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="mbr">@aylikOkunan</span>
+                                        <span class="d-flex align-items-end text-gray-500 fs-6 fw-semibold"></span>
+                                    </div>
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["MonthlyBarcodeRead"]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-6 mb-md-5 mb-xl-10">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card overflow-hidden  mb-5 mb-xl-10">
+                            <!--begin::Card body-->
+                            <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
+                                <!--begin::Statistics-->
+                                <div class="mb-4 px-9">
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-center mb-2">
+
+
+                                        <!--begin::Value-->
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="db">@gunluk</span>
+                                        <!--end::Value-->
+                                        <!--begin::Label-->
+                                        <!--end::Label-->
+                                    </div>
+                                    <!--end::Statistics-->
+                                    <!--begin::Description-->
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["DailyBarcode"]</span>
+                                    <!--end::Description-->
+                                </div>
+                                <!--end::Statistics-->
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card overflow-hidden  mb-5 mb-xl-10">
+                            <!--begin::Card body-->
+                            <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
+                                <!--begin::Statistics-->
+                                <div class="mb-4 px-9">
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-center mb-2">
+
+
+                                        <!--begin::Value-->
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="dbr">@gunlukOkunan</span>
+                                        <!--end::Value-->
+                                        <!--begin::Label-->
+                                        <!--end::Label-->
+                                    </div>
+                                    <!--end::Statistics-->
+                                    <!--begin::Description-->
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["DailyBarcodeRead"]</span>
+                                    <!--end::Description-->
+                                </div>
+                                <!--end::Statistics-->
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

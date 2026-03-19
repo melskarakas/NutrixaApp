@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>APP.API</AssemblyName>
+    <RootNamespace>APP.API</RootNamespace>
+    <SelfContained>true</SelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ORM.Business\ORM.Business.csproj" />
+    <ProjectReference Include="..\ORM.DB\ORM.DB.csproj" />
+    <ProjectReference Include="..\ORM.Models\ORM.Models.csproj" />
+    <ProjectReference Include="..\ORM.Shared\ORM.Shared.csproj" />
+    <ProjectReference Include="..\ORM.Services\ORM.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Photos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Photos\126002.png" />
+    <None Include="wwwroot\Photos\126003.png" />
+    <None Include="wwwroot\Photos\126004.png" />
+    <None Include="wwwroot\Photos\126005.png" />
+    <None Include="wwwroot\Photos\none.png" />
+  </ItemGroup>
+
+
+</Project>

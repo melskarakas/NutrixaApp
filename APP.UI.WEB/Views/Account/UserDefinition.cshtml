@@ -1,0 +1,134 @@
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Localization
+@inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
+@{
+    ViewData["Title"] = SharedLocalizer["UserDefinition"];
+    List<string> depolar = ViewBag.Depo;
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    string culture = requestCulture.RequestCulture.Culture.Name;
+
+}
+<link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
+<style>
+    ul.pagination > li.disabled {
+        background: transparent !important;
+    }
+</style>
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h3 class="card-title align-items-start flex-column"><span class="card-label fw-bold fs-3 mb-1">@SharedLocalizer["UserDefinition"]</span></h3>
+        <div class="card-toolbar">
+            <button class="btn btn-sm btn-primary" onclick="userModal('@Guid.Empty')">@SharedLocalizer["AddUser"]</button>
+        </div>
+    </div>
+    <div  id="Div_UserTable"></div>
+</div>
+<script src="~/assets/plugins/global/plugins.bundle.js"></script>
+<script>
+    $(document).ready(function () {
+        getUserTable();
+    });
+    function getUserTable() {
+        showLoadingSwal();
+        $.post("/Account/GetUserTable",
+            function (data, textStatus, jqXHR) {
+                $('#Div_UserTable').empty().append(data);
+                hideLoadingSwal();
+                datatable = $("#table_user").DataTable({
+                    "info": false,
+                    'order': [],
+                    "pageLength": 10,
+                    "lengthChange": false,
+                    'columnDefs': [
+                        //{ orderable: false, targets: [0, 1, 2, 3] },
+                        { orderable: false, targets: 0 },
+                        { orderable: false, targets: 7 },
+                    ]
+                });
+                handleSearchDatatable();
+            }
+        );
+    }
+    function userModal(userId) {
+        $.post("/Account/UserModal", { userId: userId },
+            function (data, textStatus, jqXHR) {
+                $('#GenericModal').empty().append(data).modal('show');
+            }
+        );
+    }
+    function switchUser(userId, status) {
+        $.post("/Account/SwitchUser", { userId: userId, status: status },
+            function (data, textStatus, jqXHR) {
+                if (data) {
+                    getUserTable();
+                }
+            }
+        );
+    }
+    function saveUser() {
+        var id = $("#id").val();
+        var name_surname = $("#name_surname").val();
+        var user_type = $("#user_type").val();
+        var user_name = $("#user_name").val();
+        var password = $("#password").val();
+        var email = $("#email").val();
+        var phone_number = $("#phone_number").val();
+        var new_pwd = $("#new_pwd").val();
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("name_surname", name_surname);
+        formData.append("user_type", user_type);
+        formData.append("user_name", user_name);
+        formData.append("password", password);
+        formData.append("email", email);
+        formData.append("phone_number", phone_number);
+        formData.append("new_pwd", new_pwd);
+        $.ajax({
+            url: '/Account/SaveUser', // Sunucu endpoint URL'i
+            type: 'POST',
+            data: formData,
+            processData: false, // FormData'yı jQuery'nin işlememesini sağlar
+            contentType: false, // İçerik türünü otomatik olarak ayarlar
+            success: function (response) {
+                $("#GenericModal").modal('hide');
+                if ('@culture'=='tr-TR') {
+                    toastr.success("Kullanıcı eklendi");
+                } else {
+                    toastr.success("User added");
+                }
+                getUserTable();
+            },
+            error: function (xhr, status, error) {
+               if ('@culture'=='tr-TR') {
+                    toastr.success("Kullanıcı eklenemedi");
+                } else {
+                   toastr.success("Could not add user");
+                }
+            }
+        });
+    }
+    function deleteUser(userId) {
+        $.post("/Account/DeleteUser", { userId: userId },
+            function (data, textStatus, jqXHR) {
+                if (data) {
+                    if ('@culture'=='tr-TR') {
+                        toastr.success("Kullanıcı silindi");
+                        getUserTable();
+
+                    } else {
+                        toastr.success("User deleted");
+                    }
+                } else {
+                    if ('@culture'=='tr-TR') {
+                        toastr.error("Kullanıcı silinemedi");
+                    } else {
+                        toastr.error("Could not delete user");
+                    }
+
+
+                }
+            }
+        );
+    }
+</script>

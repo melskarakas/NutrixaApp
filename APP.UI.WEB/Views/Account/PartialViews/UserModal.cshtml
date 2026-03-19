@@ -1,0 +1,126 @@
+﻿@model users
+@    using Microsoft.Extensions.Localization
+@inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
+<style>
+    .input-group-text {
+        border: none !important;
+        padding: .5rem .5rem !important;
+    }
+</style>
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mw-850px">
+    <div class="modal-content shadow-none">
+
+        <div class="modal-header" id="kt_modal_report_header">
+            <h2 class="fw-bold">
+                @if (Model.id != Guid.Empty)
+                {
+                    @SharedLocalizer["UpdateUser"]
+                }
+                else
+                {
+                    @SharedLocalizer["AddUser"]
+                }
+            </h2>
+            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal" style="background-color:transparent !important;">
+                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+            </div>
+        </div>
+
+        <div class="modal-body px-5 my-7">
+            <div class="row g-9 mb-8">
+                @Html.HiddenFor(x => x.id)
+                @Html.HiddenFor(x => x.password)
+                <div class="col-md-6 fv-row fv-plugins-icon-container" data-select2-id="select2-data-131-u9nz">
+                    <label class="required fs-6 fw-semibold mb-2">@SharedLocalizer["FullName"]</label>
+                    @Html.TextBoxFor(model => model.name_surname, new { @class = "form-control form-control-solid", placeholder = SharedLocalizer["FullName"] })
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" id="name_surname_valid"></div>
+                </div>
+                <div class="col-md-6 fv-row">
+                    <label class="required fs-6 fw-semibold mb-2">@SharedLocalizer["Usertype"]</label>
+                    <div class="position-relative d-flex align-items-center">
+                        @Html.DropDownListFor(model => model.user_type, new SelectList(new[] { new { Value = "0", Text = SharedLocalizer["StandartUser"] }, new { Value = "1", Text = SharedLocalizer["Admin"] }, }, "Value", "Text"), new { @class = "form-select form-select-solid " })
+                    </div>
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" id="user_type_valid"></div>
+                </div>
+            </div>
+            <div class="row g-9 mb-8">
+                <div class="col-md-6 fv-row fv-plugins-icon-container" data-select2-id="select2-data-131-u9nz">
+                    <label class="required fs-6 fw-semibold mb-2">@SharedLocalizer["Email"]</label>
+                    @Html.TextBoxFor(model => model.email, new { @class = "form-control form-control-solid email-mask", placeholder = SharedLocalizer["Email"] })
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" id="email_invalid"></div>
+                </div>
+                <div class="col-md-6 fv-row">
+                    <label class="required fs-6 fw-semibold mb-2">@SharedLocalizer["PhoneNo"]</label>
+                    <div class="position-relative d-flex align-items-center">
+                        @Html.TextBoxFor(model => model.phone_number, new { @class = "form-control form-control-solid phone-mask", placeholder = SharedLocalizer["PhoneNo"] })
+                    </div>
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+                </div>
+            </div>
+            <div class="row g-9 mb-8">
+                <div class="col-md-6 fv-row fv-plugins-icon-container" data-select2-id="select2-data-131-u9nz">
+                    <label class="required fs-6 fw-semibold mb-2">@SharedLocalizer["Username"]</label>
+                    @Html.TextBoxFor(model => model.user_name, new { @class = "form-control form-control-solid", placeholder = SharedLocalizer["Username"] })
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" id="user_name_valid"></div>
+                </div>
+                <div class="col-md-6 fv-row">
+                    <label class="required fs-6 fw-semibold mb-2">@SharedLocalizer["Pwd"]</label>
+                    <div class="position-relative d-flex align-items-center">
+                        @*@if (Model.id == Guid.Empty)
+                            {
+                                @Html.TextBoxFor(model => model.password, new { @class = "form-control form-control-solid", placeholder = SharedLocalizer["Pwd"] })
+
+                            }
+                            else
+                            {
+
+                            }*@
+                        <input type="text" value="" class="form-control form-control-solid" id="new_pwd" placeholder="@SharedLocalizer["Pwd"]" />
+                    </div>
+                    @if (Model.id == Guid.Empty)
+                    {
+                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" id="password_invalid">@SharedLocalizer["PwdInfo"]</div>
+                    }
+                    else
+                    {
+                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" id="password_invalid">@SharedLocalizer["PwdInfo2"]</div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="saveUser()" class="btn btn-primary">@SharedLocalizer["Save"]</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedLocalizer["Close"]</button>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        if ('@Model.id'=='@Guid.Empty') {
+            generatePwd();
+        }
+        Inputmask({
+            "mask": "(999) 999-9999"
+        }).mask(".phone-mask");
+        Inputmask({
+            mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@@*{1,20}[.*{2,6}][.*{1,2}]",
+            greedy: false,
+            onBeforePaste: function (pastedValue, opts) {
+                pastedValue = pastedValue.toLowerCase();
+                return pastedValue.replace("mailto:", "");
+            },
+            definitions: {
+                "*": {
+                    validator: '[0-9A-Za-z!#$%&"*+/=?^_`{|}~\-]',
+                    cardinality: 1,
+                    casing: "lower"
+                }
+            }
+        }).mask(".email-mask");
+    });
+    function generatePwd() {
+        var pwd = '@Guid.NewGuid().ToString().Split('-')[0]';
+        $("#new_pwd").val(pwd);
+    }
+</script>

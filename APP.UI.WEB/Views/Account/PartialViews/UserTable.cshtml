@@ -1,0 +1,109 @@
+﻿@    using ORM.Models
+@model List<users>
+@    using Microsoft.Extensions.Localization
+@    using Microsoft.AspNetCore.Localization
+@inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    string culture = requestCulture.RequestCulture.Culture.Name;
+}
+<div class="card-body py-3">
+    <div class="card-title d-flex justify-content-between">
+        <div class="d-flex align-items-center position-relative my-1">
+            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
+                <span class="path1"></span>
+                <span class="path2"></span>
+            </i>
+            <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-350px ps-13" placeholder="Search user" />
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="table_user">
+            <!--begin::Table head-->
+            <thead>
+                <tr class="fw-bold text-muted">
+                    <th class="min-w-200px">@SharedLocalizer["FullName"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Username"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Email"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["PhoneNo"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Usertype"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["CreatedDate"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Status"]</th>
+                    <th class="min-w-100px text-end">@SharedLocalizer["Operations"]</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @{ int index = 0;}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="symbol symbol-45px me-5">
+                                    <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">@Html.Raw(item.name_surname)</a>
+                                    <span class="text-muted fw-semibold text-muted d-block fs-7"></span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">@Html.Raw(item.user_name)</a>
+                        </td>
+                        <td>
+                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">@Html.Raw(item.email)</a>
+                        </td>
+                        <td>
+                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">@Html.Raw(item.phone_number)</a>
+                        </td>
+                        <td>
+                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">
+                                @if (item.user_type == 0)
+                                {
+                                    @Html.Raw("Standart Kullanıcı")
+                                }
+                                else
+                                {
+                                    @Html.Raw("Admin")
+                                }
+                            </a>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.created_date.ToString("dd.MM.yyyy HH:mm"))</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">
+                                @if (item.is_active)
+                                {
+                                    <span class="badge badge-light-success">@SharedLocalizer["Active"]</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-light-danger">@SharedLocalizer["Passive"]</span>
+                                }
+                            </a>
+                        </td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end flex-shrink-0">
+                                <a href="#" onclick="switchUser('@item.id','@item.is_active')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-outline ki-switch fs-2"></i>
+                                </a>
+                                <a href="#" onclick="userModal('@item.id')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-outline ki-pencil fs-2"></i>
+                                </a>
+                                <a href="#" onclick="deleteUser('@item.id')" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
+                                    <i class="ki-outline ki-trash fs-2"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    index++;
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
