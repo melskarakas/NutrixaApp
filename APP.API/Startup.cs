@@ -49,6 +49,8 @@ namespace APP.API
             // register ORM.Services implementation for IUserService
             var secret = Configuration["AppSettings:Secret"] ?? "";
             services.AddScoped<IUserService, UserService>(sp => new UserService(secret));
+            services.AddScoped<ICalculateService, CalculateService>();
+            services.AddScoped<INutritionService, NutritionService>();
 
             // Add Swagger
             services.AddEndpointsApiExplorer();

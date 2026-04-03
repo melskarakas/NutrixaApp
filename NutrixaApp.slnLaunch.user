@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nutrixa",
+    "Projects": [
+      {
+        "Path": "APP.UI.WEB\\APP.UI.WEB.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "APP.API\\APP.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

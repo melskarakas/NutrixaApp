@@ -1,97 +1,119 @@
-﻿@using Microsoft.Extensions.Localization
+﻿@model users
+@using ORM.Models.Models
+@using Microsoft.Extensions.Localization
 @inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
 @{
     ViewData["Title"] = SharedLocalizer["Homepage"];
-    int aylik = ViewBag.AYLIK;
-    int aylikOkunan = ViewBag.AYLIK_OKUNAN;
-    int gunluk = ViewBag.GUNLUK;
-    int gunlukOkunan = ViewBag.GUNLUK_OKUNAN;
+    int target_day = (int)ViewBag.TargetDay;
 }
 <div class="row gy-5 gx-xl-10">
     <div class="col-xl-12 mb-5 mb-xl-10">
         <div class="row g-lg-5 g-xl-10">
-            <div class="col-md-6 col-xl-6 mb-5 mb-xl-10">
+            <div class="col-md-12 col-xl-12 mb-md-10 mb-xl-12">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card overflow-hidden mb-5 mb-xl-10">
+                    <div class="col-md-12">
+                        <div class="card overflow-hidden  mb-5 mb-xl-10">
                             <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
                                 <div class="mb-4 px-9">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="mb">@aylik</span>
-                                        <span class="d-flex align-items-end text-gray-500 fs-6 fw-semibold"></span>
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="dbr">Hedefe son @target_day gün </span>
                                     </div>
-                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["MonthlyBarcode"]</span>
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["TargetDays"]</span><br />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+                
+            </div>
+        </div>
+        <div class="row g-lg-5 g-xl-10">
+            <div class="col-md-12 col-xl-12 mb-md-10 mb-xl-12">
+                <div class="row">
+                    <div class="col-md-3">
                         <div class="card overflow-hidden mb-5 mb-xl-10">
                             <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
                                 <div class="mb-4 px-9">
                                     <div class="d-flex align-items-center mb-2">
-                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="mbr">@aylikOkunan</span>
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="mb">@Html.Raw(Model.weight) kg</span>
                                         <span class="d-flex align-items-end text-gray-500 fs-6 fw-semibold"></span>
                                     </div>
-                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["MonthlyBarcodeRead"]</span>
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["Weight"]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden mb-5 mb-xl-10">
+                            <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
+                                <div class="mb-4 px-9">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="mb">@Html.Raw(Model.target_weight) kg</span>
+                                        <span class="d-flex align-items-end text-gray-500 fs-6 fw-semibold"></span>
+                                    </div>
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["Target"]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden mb-5 mb-xl-10">
+                            <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
+                                <div class="mb-4 px-9">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="mbr">@Html.Raw(Model.dpr) g</span>
+                                        <span class="d-flex align-items-end text-gray-500 fs-6 fw-semibold"></span>
+                                    </div>
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["DailyProtein"]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card overflow-hidden  mb-5 mb-xl-10">
+                            <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
+                                <div class="mb-4 px-9">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="db">@Html.Raw(Model.bmr.ToString("#,##0.0")) kcal</span>
+                                    </div>
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["BMR"]</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-xl-6 mb-md-5 mb-xl-10">
+        </div>
+        <div class="row g-lg-5 g-xl-10">
+            <div class="col-md-12 col-xl-12 mb-md-10 mb-xl-12">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card overflow-hidden  mb-5 mb-xl-10">
-                            <!--begin::Card body-->
                             <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
-                                <!--begin::Statistics-->
                                 <div class="mb-4 px-9">
-                                    <!--begin::Statistics-->
                                     <div class="d-flex align-items-center mb-2">
-
-
-                                        <!--begin::Value-->
-                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="db">@gunluk</span>
-                                        <!--end::Value-->
-                                        <!--begin::Label-->
-                                        <!--end::Label-->
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="dbr">@Html.Raw(Model.tdee.ToString("#,##0.0")) kcal</span>
                                     </div>
-                                    <!--end::Statistics-->
-                                    <!--begin::Description-->
-                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["DailyBarcode"]</span>
-                                    <!--end::Description-->
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["TDEE"]</span><br />
+                                    <span class="fs-8 fw-semibold text-gray-500">Kilo korumak için günlük alınması gereken kalori miktarıdır.</span>
                                 </div>
-                                <!--end::Statistics-->
                             </div>
-                            <!--end::Card body-->
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card overflow-hidden  mb-5 mb-xl-10">
-                            <!--begin::Card body-->
                             <div class="card-body d-flex justify-content-between flex-column px-0 pb-0">
-                                <!--begin::Statistics-->
                                 <div class="mb-4 px-9">
-                                    <!--begin::Statistics-->
                                     <div class="d-flex align-items-center mb-2">
-
-
-                                        <!--begin::Value-->
-                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="dbr">@gunlukOkunan</span>
-                                        <!--end::Value-->
-                                        <!--begin::Label-->
-                                        <!--end::Label-->
+                                        @{
+                                            decimal result = Model.tdee - 500m;
+                                        }
+                                        <span class="fs-2hx fw-bold text-gray-800 me-2 lh-1 ls-n2" id="dbr">@result.ToString("#,##0.0") kcal</span>
                                     </div>
-                                    <!--end::Statistics-->
-                                    <!--begin::Description-->
-                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["DailyBarcodeRead"]</span>
-                                    <!--end::Description-->
+                                    <span class="fs-6 fw-semibold text-gray-500">@SharedLocalizer["TDEE"]</span><br />
+                                    <span class="fs-8 fw-semibold text-gray-500">Kilo vermek için günlük alınması gereken kalori miktarıdır.</span><br />
                                 </div>
-                                <!--end::Statistics-->
                             </div>
-                            <!--end::Card body-->
                         </div>
                     </div>
                 </div>

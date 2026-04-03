@@ -56,7 +56,6 @@ namespace APP.UI.WEB.BaseClasses
                 {
                     _session.SetString("AKTIF_KULLANICI", JsonSerializer.Serialize(user));
                     _session.SetString("AKTIF_KULLANICI_ID", user.id.ToString());
-                    _session.SetString("AKTIF_KULLANICI_AD", user.user_name);
                     _session.SetInt32("AKTIF_KULLANICI_TUR", (Convert.ToInt32(user.user_type)));
 
                     return "1";

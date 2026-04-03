@@ -1,9 +1,9 @@
-﻿@    using Microsoft.AspNetCore.Http;
-@    using System.Text.Json;
-@    using Microsoft.Extensions.Localization
-@    using Microsoft.AspNetCore.Localization
-@    using ORM.Models;
-    using ORM.Models.Models
+﻿@using Microsoft.AspNetCore.Http;
+@using System.Text.Json;
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Localization
+@using ORM.Models;
+@using ORM.Models.Models
 @inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
 @inject IHttpContextAccessor HttpContextAccessor
 @{
@@ -32,7 +32,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
-    <link rel="shortcut icon" href="assets/media/logos/faydam.ico" />
+    <link rel="shortcut icon" href="assets/media/logos/nutrixa_logo.ico" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="~/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
@@ -59,11 +59,10 @@
         .page-content-white .page-title {
             margin: 0 0 10px 0 !important;
         }
-        /*
-        #stokListeModal {
-            z-index: 912323 !important;
-            margin-top: 150px !important;
-        }*/
+
+        .app-sidebar .app-sidebar-logo {
+            height: 40px !important;
+        }
     </style>
 </head>
 
@@ -679,8 +678,8 @@
                     <div class="app-sidebar-logo flex-shrink-0 d-none d-lg-flex flex-center align-items-center" id="kt_app_sidebar_logo">
                         <!--begin::Logo-->
                         <a href="@Url.Action("Index","Home")">
-                            <img alt="Logo" src="~/assets/media/logos/faydam-mavi-yatay.png" class="h-25px d-none d-sm-inline app-sidebar-logo-default theme-light-show" />
-                            <img alt="Logo" src="~/assets/media/logos/faydam-beyaz-yatay.png" class="h-25px theme-dark-show" />
+                            <img alt="Logo" src="~/assets/media/logos/nutrixa-yatay-logo.png" class="h-50px d-none d-sm-inline app-sidebar-logo-default theme-light-show" />
+                            <img alt="Logo" src="~/assets/media/logos/nutrixa-yatay-logo.png" class="h-50px theme-dark-show" />
                         </a>
                         <!--end::Logo-->
                         <!--begin::Aside toggle-->
@@ -697,28 +696,15 @@
                         <!--begin::Menu wrapper-->
                         <div id="kt_app_sidebar_menu_wrapper" class="hover-scroll-overlay-y my-5" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px">
                             <div class="menu menu-column menu-sub-indention fw-bold npx-6" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
-                                <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
-                                    <span class="menu-link">
-                                        <span class="menu-icon"><i class="ki-outline ki-category fs-2"></i></span>
+                                <div data-kt-menu-trigger="click" class="menu-item show menu-accordion">
+                                    <a href="@Url.Action("Index","Home")" class="menu-item menu-link">
+                                        <span class="menu-icon">
+                                            <i class="ki-outline ki-category fs-2"></i>
+                                        </span>
                                         <span class="menu-title">@SharedLocalizer["Homepage"]</span>
-                                        <span class="menu-arrow"></span>
-                                    </span>
+                                    </a>
                                 </div>
 
-                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                    <span class="menu-link"><span class="menu-icon"><i class="ki-outline ki-some-files fs-2"></i></span><span class="menu-title">@SharedLocalizer["Orders"]</span><span class="menu-arrow"></span></span>
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                            <a class="menu-link" href="@Url.Action("Index","Order")">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">@SharedLocalizer["OrderList"]</span>
-                                                <span class="menu-arrow"></span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                                     <span class="menu-link"><span class="menu-icon"><i class="ki-outline ki-some-files fs-2"></i></span><span class="menu-title">@SharedLocalizer["Definitions"]</span><span class="menu-arrow"></span></span>
                                     <div class="menu-sub menu-sub-accordion">
@@ -728,6 +714,29 @@
                                                     <span class="bullet bullet-dot"></span>
                                                 </span>
                                                 <span class="menu-title">@SharedLocalizer["UserDefinition"]</span>
+                                                <span class="menu-arrow"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                    <span class="menu-link"><span class="menu-icon"><i class="ki-outline ki-some-files fs-2"></i></span><span class="menu-title">@SharedLocalizer["Nutrition"]</span><span class="menu-arrow"></span></span>
+                                    <div class="menu-sub menu-sub-accordion">
+                                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                            <a class="menu-link" href="@Url.Action("Index","Nutrition")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">@SharedLocalizer["CreateNutrition"]</span>
+                                                <span class="menu-arrow"></span>
+                                            </a>
+                                        </div>
+                                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                            <a class="menu-link" href="@Url.Action("Index","Nutrition")">
+                                                <span class="menu-bullet">
+                                                    <span class="bullet bullet-dot"></span>
+                                                </span>
+                                                <span class="menu-title">@SharedLocalizer["NutritionReports"]</span>
                                                 <span class="menu-arrow"></span>
                                             </a>
                                         </div>
@@ -752,7 +761,7 @@
                                 <!--begin::Name-->
                                 <div class="d-flex flex-column align-items-start justify-content-center ms-3">
                                     <span class="text-gray-500  fs-8 fw-semibold">@SharedLocalizer["Welcome"]</span>
-                                    <a href="#" class="text-gray-800 fs-7 fw-bold text-hover-primary">@Html.Raw(user.name_surname)</a>
+                                    <a href="#" class="text-gray-800 fs-7 fw-bold text-hover-primary">@Html.Raw(user.first_name)</a>
                                 </div>
                                 <!--end::Name-->
                             </div>
@@ -770,7 +779,7 @@
                                         <!--begin::Username-->
                                         <div class="d-flex flex-column">
                                             <div class="fw-bold d-flex align-items-center fs-5">
-                                                @Html.Raw(user.name_surname)
+                                                @Html.Raw(user.first_name)
                                                 @if (user.is_active)
                                                 {
                                                     <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">@SharedLocalizer["Verified"]</span>
@@ -942,16 +951,16 @@
                             <!--begin::Copyright-->
                             <div class="text-gray-900 order-2 order-md-1">
                                 <span class="text-muted fw-semibold me-1">@DateTime.Now.Year&copy;</span>
-                                <a href="https://faydam.com" target="_blank" class="text-gray-800 text-hover-primary">@SharedLocalizer["Faydam"]</a>
+                                <a href="https://nutrixa.com" target="_blank" class="text-gray-800 text-hover-primary">@SharedLocalizer["Nutrixa"]</a>
                             </div>
                             <!--end::Copyright-->
                             <!--begin::Menu-->
                             <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                                <li class="menu-item"><a href="https://faydam.com" target="_blank" class="menu-link px-2">@SharedLocalizer["About"]</a></li>
+                                <li class="menu-item"><a href="https://nutrixa.com" target="_blank" class="menu-link px-2">@SharedLocalizer["About"]</a></li>
 
-                                <li class="menu-item"><a href="https://faydam.com" target="_blank" class="menu-link px-2">@SharedLocalizer["Support"]</a></li>
+                                <li class="menu-item"><a href="https://nutrixa.com" target="_blank" class="menu-link px-2">@SharedLocalizer["Support"]</a></li>
 
-                                <li class="menu-item"><a href="https://faydam.com" target="_blank" class="menu-link px-2">@SharedLocalizer["Purchase"]</a></li>
+                                <li class="menu-item"><a href="https://nutrixa.com" target="_blank" class="menu-link px-2">@SharedLocalizer["Purchase"]</a></li>
                             </ul>
                             <!--end::Menu-->
                         </div>
@@ -986,7 +995,7 @@
             <div class="card-header pe-5" id="kt_drawer_chat_messenger_header">
                 <div class="card-title">
                     <div class="d-flex justify-content-center flex-column me-3">
-                        <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">@user.name_surname</a>
+                        <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">@user.first_name</a>
                         <div class="mb-0 lh-1">
                             <span class="badge badge-success badge-circle w-10px h-10px me-1"></span>
                             <span class="fs-7 fw-semibold text-muted">@SharedLocalizer["Active"]</span>

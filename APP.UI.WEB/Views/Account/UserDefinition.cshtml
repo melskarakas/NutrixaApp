@@ -22,7 +22,7 @@
             <button class="btn btn-sm btn-primary" onclick="userModal('@Guid.Empty')">@SharedLocalizer["AddUser"]</button>
         </div>
     </div>
-    <div  id="Div_UserTable"></div>
+    <div id="Div_UserTable"></div>
 </div>
 <script src="~/assets/plugins/global/plugins.bundle.js"></script>
 <script>
@@ -68,21 +68,46 @@
     }
     function saveUser() {
         var id = $("#id").val();
-        var name_surname = $("#name_surname").val();
-        var user_type = $("#user_type").val();
-        var user_name = $("#user_name").val();
-        var password = $("#password").val();
+        var first_name = $("#first_name").val();
+        var last_name = $("#last_name").val();
         var email = $("#email").val();
         var phone_number = $("#phone_number").val();
+        var user_type = $("#user_type").val();
+        var height = $("#height").val();
+        var weight = $("#weight").val();
+        var date_of_birth = $("#date_of_birth").val();
+        var target_weight = $("#target_weight").val();
+        var workout_status = $("#workout_status").val();
+        var gender = $("#gender").val();
+        var age = $("#age").val();
+        var bmi = $("#bmi").val();
+        var bmr = $("#bmr").val();
+        var tdee = $("#tdee").val();
+        var dpr = $("#dpr").val();
+        var last_login_time = $("#last_login_time").val();
+        var password = $("#password").val();
         var new_pwd = $("#new_pwd").val();
+        debugger;
         const formData = new FormData();
         formData.append("id", id);
-        formData.append("name_surname", name_surname);
-        formData.append("user_type", user_type);
-        formData.append("user_name", user_name);
-        formData.append("password", password);
+        formData.append("first_name", first_name);
+        formData.append("last_name", last_name);
         formData.append("email", email);
         formData.append("phone_number", phone_number);
+        formData.append("user_type", user_type);
+        formData.append("height", height);
+        formData.append("weight", weight);
+        formData.append("date_of_birth", date_of_birth);
+        formData.append("target_weight", target_weight);
+        formData.append("workout_status", workout_status);
+        formData.append("gender", gender);
+        formData.append("age", age);
+        formData.append("bmi", bmi);
+        formData.append("bmr", bmr);
+        formData.append("tdee", tdee);
+        formData.append("dpr", dpr);
+        formData.append("last_login_time", last_login_time);
+        formData.append("password", password);
         formData.append("new_pwd", new_pwd);
         $.ajax({
             url: '/Account/SaveUser', // Sunucu endpoint URL'i

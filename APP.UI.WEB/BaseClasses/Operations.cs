@@ -36,14 +36,14 @@ namespace APP.UI.WEB.BaseClasses
         {
             _httpContextAccessor?.HttpContext?.Session.SetString(key, value);
         }
-        public static async Task<string> Authenticate(string UserName, string Password)
+        public static async Task<string> Authenticate(string Email, string Password)
         {
             try
             {
                 string Uri = WebApiUrl + "Users/authenticate";
                 var loginData = new AuthenticateRequest
                 {
-                    Username = UserName,
+                    Email = Email,
                     Password = Password,
                     IsPasswordMd5 = true
                 };

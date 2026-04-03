@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -126,8 +127,10 @@ namespace ORM.Shared
 
             [Display(Name = "Kadın")]
             Kadin = 1,
-
-            Erkek = 2
+            [Display(Name = "Erkek")]
+            Erkek = 2,
+            [Display(Name = "Belirtmek İstemiyor")]
+            BelirtmekIstemiyor=3
         }
 
         public enum IsActive
@@ -164,6 +167,19 @@ namespace ORM.Shared
             [Display(Name = "Yeniden Eskiye")]
             YenidenEskiye = 2
         }
+        public enum WorkoutStatus
+        {
+            [Display(Name = "Sedanter")]
+            Sendanter = 1,
+            [Display(Name = "Az Hareketli/Haftada 1-3 gün egzersiz")]
+            AzHareketli = 2,
+            [Display(Name = "Orta Derece Hareketli/Haftada 3-5 gün egzersiz")]
+            OrtaDereceHareketli = 3,
+            [Display(Name = "Çok Hareketli/Haftada 6-7 gün egzersiz")]
+            CokHareketli = 4,
+            [Display(Name = "Profesyonel Sporcu")]
+            ProfesyonelSporcu = 5
 
+        }
     }
 }

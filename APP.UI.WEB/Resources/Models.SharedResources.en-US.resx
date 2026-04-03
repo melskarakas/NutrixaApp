@@ -132,6 +132,9 @@
   <data name="Barcode" xml:space="preserve">
     <value>Barcode</value>
   </data>
+  <data name="BMR" xml:space="preserve">
+    <value>Basal Metabolic Rate</value>
+  </data>
   <data name="ChooseUnit" xml:space="preserve">
     <value>Choose Unit</value>
   </data>
@@ -153,8 +156,17 @@
   <data name="DailyBarcodeRead" xml:space="preserve">
     <value>Number of Barcode Read Daily</value>
   </data>
+  <data name="DailyProteinWithoutWorkout" xml:space="preserve">
+    <value>Daily Protein Requirement (No Exercise Day)</value>
+  </data>
+  <data name="DailyProteinWithWorkout" xml:space="preserve">
+    <value>Daily Protein Requirements (Workout Day)</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Dark</value>
+  </data>
+  <data name="TDEE" xml:space="preserve">
+    <value>Total Daily Energy Expenditure</value>
   </data>
   <data name="Definitions" xml:space="preserve">
     <value>Definitions</value>

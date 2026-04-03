@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 using ORM.Models.Models;
+using ORM.Business.Classes;
 
 namespace ORM.Services.Services
 {
@@ -31,33 +32,14 @@ namespace ORM.Services.Services
             if (!string.IsNullOrWhiteSpace(user.email) && await ExistsByEmail(user.email))
                 return null;
 
-            if (!string.IsNullOrWhiteSpace(user.user_name) && await ExistsByUserName(user.user_name))
-                return null;
 
             user.id = Guid.NewGuid();
             user.password = ORM.Shared.Base.GenerateDoubleMD5Password(user.password);
-            user.created_date = DateTime.Now;
-            user.modified_date = DateTime.Now;
-            user.is_active = true;
-            user.is_deleted = false;
 
             var res = new GenericBusiness<users>().Add(user);
             return res ? user : null;
         }
 
-        public async Task<user_inf?> AddUserInfo(user_inf info)
-        {
-            if (info == null || info.user_id == Guid.Empty) return null;
-
-            info.id = Guid.NewGuid();
-            info.created_date = DateTime.Now;
-            info.modified_date = DateTime.Now;
-            info.is_active = true;
-            info.is_deleted = false;
-
-            var res = new GenericBusiness<user_inf>().Add(info);
-            return res ? info : null;
-        }
 
         public async Task<bool> ExistsByEmail(string email)
         {
@@ -67,13 +49,6 @@ namespace ORM.Services.Services
             return existing != null;
         }
 
-        public async Task<bool> ExistsByUserName(string userName)
-        {
-            if (string.IsNullOrWhiteSpace(userName)) return false;
-            string where = $" AND {nameof(users.user_name)} = '{userName}'";
-            var existing = new GenericBusiness<users>().GetAllByCustomQuery(where).FirstOrDefault();
-            return existing != null;
-        }
 
         public async Task<users?> GetById(object id)
         {
@@ -121,7 +96,7 @@ namespace ORM.Services.Services
             }
             else
             {
-                string where = $" AND {nameof(users.user_name)} = '{userObj.user_name}'";
+                string where = $" AND {nameof(users.email)} = '{userObj.email}'";
                 var user = new GenericBusiness<users>().GetAllByCustomQuery(where).FirstOrDefault();
                 if (user == null)
                 {
@@ -156,7 +131,7 @@ namespace ORM.Services.Services
             }
 
             // Allow login by either email or user_name
-            string where = $" AND ( {nameof(users.email)} = '{identifier}' OR {nameof(users.user_name)} = '{identifier}' ) AND {nameof(users.password)} = '{md5Password}' AND {nameof(users.is_active)} = true AND {nameof(users.is_deleted)} = false";
+            string where = $" AND ( {nameof(users.email)} = '{identifier}' OR {nameof(users.email)} = '{identifier}' ) AND {nameof(users.password)} = '{md5Password}' AND {nameof(users.is_active)} = true AND {nameof(users.is_deleted)} = false";
             var user = new GenericBusiness<users>().GetAllByCustomQuery(where).FirstOrDefault();
 
             if (user == null) return null;
@@ -164,7 +139,7 @@ namespace ORM.Services.Services
             // generate token and include is_registration
             var token = await isAuthenticate(user);
 
-            return new AuthenticationResult { Token = token, IsRegistration = user.is_registration };
+            return new AuthenticationResult { Token = token, IsRegistration = true };
         }
 
         public async Task<users?> AddAndUpdateUser(object userObj)
@@ -204,7 +179,7 @@ namespace ORM.Services.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             if (string.IsNullOrEmpty(_secret) || Encoding.UTF8.GetBytes(_secret).Length < 32)
             {
-                throw new InvalidOperationException("JWT secret is not configured or too short. Set AppSettings:Secret with at least 32 bytes length (e.g. 32+ characters)." );
+                throw new InvalidOperationException("JWT secret is not configured or too short. Set AppSettings:Secret with at least 32 bytes length (e.g. 32+ characters).");
             }
             var key = Encoding.UTF8.GetBytes(_secret);
             var tokenDescriptor = new SecurityTokenDescriptor

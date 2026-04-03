@@ -30,7 +30,7 @@ namespace APP.UI.WEB.Controllers
         }
         public class KullaniciLoginModel
         {
-            public string kullanici_ad { get; set; }
+            public string eposta { get; set; }
             public string sifre { get; set; }
             public bool beni_hatirla { get; set; } = false;
         }
@@ -58,7 +58,6 @@ namespace APP.UI.WEB.Controllers
                 users user = new GenericBusiness<users>().GetById(Convert.ToInt32(userId));
 
                 HttpContext.Session.SetString("AKTIF_KULLANICI_ID", user.id.ToString());
-                HttpContext.Session.SetString("AKTIF_KULLANICI_AD", user.user_name);
                 HttpContext.Session.SetInt32("AKTIF_KULLANICI_TUR", (Convert.ToInt32(user.user_type)));
 
                 CreateOrUpdateRememberMeCookie(HttpContext.Session.GetString("AKTIF_KULLANICI_ID"), "BaseProject");
@@ -85,7 +84,7 @@ namespace APP.UI.WEB.Controllers
             string cookieName = "appormcore0001_lc";
             ViewBag._LDAP_ACTIVE = this._LDAP_ACTIVE;
 
-            if (String.IsNullOrEmpty(kullanici.kullanici_ad) || String.IsNullOrEmpty(kullanici.sifre) || kullanici.sifre == "ldap")
+            if (String.IsNullOrEmpty(kullanici.eposta) || String.IsNullOrEmpty(kullanici.sifre) || kullanici.sifre == "ldap")
             {
                 ViewBag.Mesaj = "Kullanıcı Adı veya Şifre Boş Bırakılamaz";
                 return View();
@@ -93,7 +92,7 @@ namespace APP.UI.WEB.Controllers
 
             else
             {
-                string gelen = new BaseClasses.OturumKontrol(this.HttpContext.Session).KullaniciGiris(kullanici.kullanici_ad, kullanici.sifre);
+                string gelen = new BaseClasses.OturumKontrol(this.HttpContext.Session).KullaniciGiris(kullanici.eposta, kullanici.sifre);
                 users _user = new users();
                 //List<ORM.Models.tbl_kullanici> tbl_Kullanicis = new ORM.Business.GenericBusiness<ORM.Models.tbl_kullanici>().GetAllByCustomQuery("").ToList();
 
@@ -104,7 +103,7 @@ namespace APP.UI.WEB.Controllers
                     if (kullanici.beni_hatirla)
                     {
                         CreateOrUpdateRememberMeCookie(HttpContext.Session.GetString("AKTIF_KULLANICI_ID"), "BaseProject");
-                        CreateCookie(cookieName, kullanici.kullanici_ad);
+                        CreateCookie(cookieName, kullanici.eposta);
                     }
 
 
@@ -112,12 +111,12 @@ namespace APP.UI.WEB.Controllers
 
                     //MyClassesX.DbOperations.LogEkle(MyClasses.Tur.IslemTurler.OturumAcildi, "", Kutuphane.NullIseBosVer(gelenKullaniciId), kullanici);
                     kullanici.sifre = Base.GenerateDoubleMD5Password(kullanici.sifre);
-                    string w = $" AND {nameof(users.user_name)}='{kullanici.kullanici_ad}' and {nameof(users.password)}='{kullanici.sifre}'";
+                    string w = $" AND {nameof(users.email)}='{kullanici.eposta}' and {nameof(users.password)}='{kullanici.sifre}'";
                     _user = new GenericBusiness<users>().GetAllByCustomQuery(w).FirstOrDefault();
                     if (_user != null)
                     {
                         CurrentSession.userAuthInfo = _user;
-                        string isAuth = await Operations.Authenticate(_user.user_name,_user.password);
+                        string isAuth = await Operations.Authenticate(_user.email,_user.password);
                         HttpContext.Session.SetString("token", isAuth);
                     }
                     string p = ORM.Shared.Lib.isString(HttpContext.Request.Query["p"]);

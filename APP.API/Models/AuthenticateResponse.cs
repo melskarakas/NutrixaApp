@@ -6,16 +6,16 @@ namespace APP.API.Models
     public class AuthenticateResponse
     {
         public Guid Id { get; set; }
-        public string NameSurname { get; set; }
-        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Token { get; set; }
 
 
         public AuthenticateResponse(users user, string token)
         {
             Id = user.id;
-            NameSurname = user.name_surname;
-            Username = user.user_name;
+            FirstName = user.first_name;
+            LastName = user.last_name;
             Token = token;
         }
     }

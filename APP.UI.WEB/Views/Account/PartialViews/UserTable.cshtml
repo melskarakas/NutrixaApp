@@ -1,7 +1,8 @@
-﻿@    using ORM.Models
-@model List<users>
-@    using Microsoft.Extensions.Localization
-@    using Microsoft.AspNetCore.Localization
+﻿@model List<users>
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Localization
+@using ORM.Models.Models
+@using ORM.Shared
 @inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
@@ -21,51 +22,159 @@
         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="table_user">
             <!--begin::Table head-->
             <thead>
-                <tr class="fw-bold text-muted">
-                    <th class="min-w-200px">@SharedLocalizer["FullName"]</th>
-                    <th class="min-w-150px">@SharedLocalizer["Username"]</th>
+                <tr class="fw-bold text-gray">
+                    <th class="min-w-100px text-start">@SharedLocalizer["Operations"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["FirstName"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Lastname"]</th>
                     <th class="min-w-150px">@SharedLocalizer["Email"]</th>
                     <th class="min-w-150px">@SharedLocalizer["PhoneNo"]</th>
                     <th class="min-w-150px">@SharedLocalizer["Usertype"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["DateOfBirth/Age"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Gender"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Height/Weight"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["Target/Weight"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["WorkoutStatus"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["BMR"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["BMI"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["TDEE"]</th>
+                    <th class="min-w-150px">@SharedLocalizer["DPR"]</th>
                     <th class="min-w-150px">@SharedLocalizer["CreatedDate"]</th>
                     <th class="min-w-150px">@SharedLocalizer["Status"]</th>
-                    <th class="min-w-100px text-end">@SharedLocalizer["Operations"]</th>
+
                 </tr>
             </thead>
             <tbody id="tbody">
-                @{ int index = 0;}
+                @{
+                    int index = 0;
+                }
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end flex-shrink-0">
+                                <a href="#" onclick="switchUser('@item.id','@item.is_active')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-outline ki-switch fs-2"></i>
+                                </a>
+                                <a href="#" onclick="userModal('@item.id')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                    <i class="ki-outline ki-pencil fs-2"></i>
+                                </a>
+                                <a href="#" onclick="deleteUser('@item.id')" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
+                                    <i class="ki-outline ki-trash fs-2"></i>
+                                </a>
+                            </div>
+                        </td>
                         <td>
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-45px me-5">
-                                    <a href="#" class="text-gray-900 fw-bold text-hover-primary fs-6">@Html.Raw(item.name_surname)</a>
-                                    <span class="text-muted fw-semibold text-muted d-block fs-7"></span>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.first_name)</span>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">@Html.Raw(item.user_name)</a>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.last_name)</span>
+                                </div>
+                            </div>
                         </td>
                         <td>
-                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">@Html.Raw(item.email)</a>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.email)</span>
+                                </div>
+                            </div>
                         </td>
                         <td>
-                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">@Html.Raw(item.phone_number)</a>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.phone_number)</span>
+                                </div>
+                            </div>
                         </td>
                         <td>
-                            <a href="#" class="text-gray-900 fw-bold text-hover-primary d-block fs-6">
-                                @if (item.user_type == 0)
-                                {
-                                    @Html.Raw("Standart Kullanıcı")
-                                }
-                                else
-                                {
-                                    @Html.Raw("Admin")
-                                }
-                            </a>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">
+                                        @if (item.user_type == 1)
+                                        {
+                                            @Html.Raw("Bireysel Kullanıcı / Danışan")
+                                        }
+                                        else if (item.user_type == 2)
+                                        {
+                                            @Html.Raw("Beslenme Uzmanı / Diyetisyen")
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw("Admin")
+                                        }
+                                    </span>
+                                </div>
+                            </div>
                         </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.date_of_birth.ToString("dd.MM.yyyy")) / @Html.Raw(item.age) yıl</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(EnumExtensions.GetDisplayName(item.gender))</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.height) cm/ @Html.Raw(item.weight) kg</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.target_weight) kg</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(EnumExtensions.GetDisplayName(item.workout_status))</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.bmr) kcal</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.bmi)</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.tdee) kcal</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column w-100 me-2">
+                                <div class="d-flex flex-stack mb-2">
+                                    <span class="text-muted me-2 fs-7 fw-bold">@Html.Raw(item.dpr) g</span>
+                                </div>
+                            </div>
+                        </td>
+
                         <td>
                             <div class="d-flex flex-column w-100 me-2">
                                 <div class="d-flex flex-stack mb-2">
@@ -85,19 +194,7 @@
                                 }
                             </a>
                         </td>
-                        <td class="text-end">
-                            <div class="d-flex justify-content-end flex-shrink-0">
-                                <a href="#" onclick="switchUser('@item.id','@item.is_active')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-outline ki-switch fs-2"></i>
-                                </a>
-                                <a href="#" onclick="userModal('@item.id')" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                                    <i class="ki-outline ki-pencil fs-2"></i>
-                                </a>
-                                <a href="#" onclick="deleteUser('@item.id')" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm">
-                                    <i class="ki-outline ki-trash fs-2"></i>
-                                </a>
-                            </div>
-                        </td>
+
                     </tr>
                     index++;
                 }

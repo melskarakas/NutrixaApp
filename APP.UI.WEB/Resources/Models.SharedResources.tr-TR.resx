@@ -132,6 +132,9 @@
   <data name="Barcode" xml:space="preserve">
     <value>Barkod</value>
   </data>
+  <data name="BMR" xml:space="preserve">
+    <value>Bazal Metabolizma Hızı</value>
+  </data>
   <data name="ChooseUnit" xml:space="preserve">
     <value>Birim Seçiniz</value>
   </data>
@@ -153,8 +156,17 @@
   <data name="DailyBarcodeRead" xml:space="preserve">
     <value>Günlük Okunan Barkod Sayısı</value>
   </data>
+  <data name="DailyProteinWithoutWorkout" xml:space="preserve">
+    <value>Günlük Protein İhtiyacı (Sporsuz Gün)</value>
+  </data>
+  <data name="DailyProteinWithWorkout" xml:space="preserve">
+    <value>Günlük Protein İhtiyacı (Spor Günü)</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Koyu</value>
+  </data>
+  <data name="TDEE" xml:space="preserve">
+    <value>Toplam Günlük Enerji Harcaması</value>
   </data>
   <data name="Definitions" xml:space="preserve">
     <value>Tanımlar</value>

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using ORM.Models.Models;
+using ORM.Models.Models.CustomModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 
 namespace APP.UI.WEB.Controllers
@@ -23,7 +25,7 @@ namespace APP.UI.WEB.Controllers
             users user = Operations.GET<users>($"Accounts/GetById?id={CurrentSession.userAuthInfo.id}");
             return View(user);
         }
-        public ActionResult Save(Guid id, string full_name, string email, string phone, string username, string current_pwd, string new_pwd)
+        public ActionResult Save(Guid id, string first_name, string last_name, string email, string phone, string height, string weight, string date_of_birth, string target_weight, string workout_status, string gender, string age, string bmi, string bmr, string tdee, string dpr, string current_pwd, string new_pwd, bool is_calculation_update)
         {
             users user = Operations.GET<users>($"Accounts/GetById?id={id}");
             if (!String.IsNullOrEmpty(current_pwd) && !String.IsNullOrEmpty(new_pwd))
@@ -38,11 +40,33 @@ namespace APP.UI.WEB.Controllers
                     return Json(new { success = false, message = "Mevcut şifre hatalı" });
                 }
             }
-            user.name_surname = full_name;
+            user.first_name = first_name;
+            user.last_name = last_name;
             user.email = email;
             user.phone_number = phone;
-            user.user_name = username;
-            var res = Operations.PUT("Accounts/Update", user);
+            user.height = !String.IsNullOrEmpty(height) ? int.Parse(height) : user.height;
+            user.weight = !String.IsNullOrEmpty(weight) ? int.Parse(weight) : user.weight;
+            user.date_of_birth = !String.IsNullOrEmpty(date_of_birth) ? DateTime.Parse(date_of_birth) : user.date_of_birth;
+            user.target_weight = !String.IsNullOrEmpty(target_weight) ? int.Parse(target_weight) : user.target_weight;
+            if (Enum.TryParse<ORM.Shared.Base.WorkoutStatus>(workout_status, out var result))
+            {
+                user.workout_status = result;
+            }
+            if (Enum.TryParse<ORM.Shared.Base.Gender>(gender, out var genderResult))
+            {
+                user.gender = genderResult;
+            }
+            user.age = !String.IsNullOrEmpty(age) ? int.Parse(age) : user.age;
+            user.bmi = !String.IsNullOrEmpty(bmi) ? decimal.Parse(bmi) : user.bmi;
+            user.bmr = !String.IsNullOrEmpty(bmr) ? decimal.Parse(bmr) : user.bmr;
+            user.tdee = !String.IsNullOrEmpty(tdee) ? decimal.Parse(tdee) : user.tdee;
+            user.dpr = !String.IsNullOrEmpty(dpr) ? decimal.Parse(dpr, CultureInfo.InvariantCulture) : user.dpr;
+            UserUpdateRequest updateRequest = new UserUpdateRequest
+            {
+                UpdatedItem = user,
+                IsCalculationUpdate = is_calculation_update
+            };
+            var res = Operations.PUT("Accounts/Update", updateRequest);
             if (res)
             {
                 return Json(new { success = true, message = "İşlem başarılı" });
@@ -77,7 +101,12 @@ namespace APP.UI.WEB.Controllers
             if (user.id != Guid.Empty)
             {
                 user.password = !String.IsNullOrEmpty(new_pwd) ? ORM.Shared.Base.GenerateDoubleMD5Password(new_pwd) : user.password;
-                bool result = Operations.PUT("Accounts/Update", user);
+                UserUpdateRequest updateRequest = new UserUpdateRequest
+                {
+                    UpdatedItem = user,
+                    IsCalculationUpdate = false
+                };
+                bool result = Operations.PUT("Accounts/Update", updateRequest);
                 res = result.ToString();
             }
             else
@@ -97,7 +126,7 @@ namespace APP.UI.WEB.Controllers
             var res = Operations.PUT("Accounts/Update", user);
             return Json(res);
         }
-       
+
         public ActionResult SwitchUser(Guid userId, bool status)
         {
             users user = Operations.GET<users>($"Accounts/GetById?id={userId}");

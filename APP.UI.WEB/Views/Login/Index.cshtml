@@ -27,7 +27,7 @@ License: For each use you must have a valid license purchased only from above li
 <!--begin::Head-->
 <head>
     <base href="../../../" />
-    <title>@SharedLocalizer["FaydamUserLogin"]</title>
+    <title>@SharedLocalizer["NutrixaserLogin"]</title>
     <meta charset="utf-8" />
     <meta name="description" content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
     <meta name="keywords" content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
@@ -38,7 +38,7 @@ License: For each use you must have a valid license purchased only from above li
     <meta property="og:url" content="https://keenthemes.com/metronic" />
     <meta property="og:site_name" content="Metronic by Keenthemes" />
     <link rel="canonical" href="http://authentication/layouts/fancy/sign-in.html" />
-    <link rel="shortcut icon" href="assets/media/logos/faydam.ico" />
+    <link rel="shortcut icon" href="assets/media/logos/nutrixa_logo.ico" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -50,6 +50,30 @@ License: For each use you must have a valid license purchased only from above li
     <style>
         .bg-faydam {
             background-image: url(assets/media/auth/bg-10.jpeg);
+        }
+        #kt_body{
+             background-image: url(assets/media/logos/nutrixa_info.png);
+             background-repeat: no-repeat;     
+             background-size: cover;          
+             background-size: cover;          
+            background-position: center;      
+        }
+        #kt_sign_in_form {
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 12px;
+
+            width: 420px;
+            margin:35% 0 0 110%;
+
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }       
+        .nutrixa_color{
+            color:#3EA802;
+        }
+        .btn-nutrixa{
+            background-color:#3EA802;
+            color:white;
         }
     </style>
 </head>
@@ -88,7 +112,6 @@ License: For each use you must have a valid license purchased only from above li
                     <!--end::Header-->
                     <!--begin::Body-->
                     <div class="py-20">
-
                         <!--begin::Form-->
                         <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" asp-action="Index" asp-controller="Login" method="post">
                             <!--begin::Body-->
@@ -96,7 +119,7 @@ License: For each use you must have a valid license purchased only from above li
                                 <!--begin::Heading-->
                                 <div class="text-start mb-10">
                                     <!--begin::Title-->
-                                    <h1 class="text-gray-900 mb-3 fs-3x" data-kt-translate="sign-in-title">@SharedLocalizer["Signin"]</h1>
+                                    <h1 class="nutrixa_color mb-3 fs-3x text-center" data-kt-translate="sign-in-title">@SharedLocalizer["Signin"]</h1>
                                     <!--end::Title-->
                                     @if (ViewBag.Mesaj != null)
                                     {
@@ -115,7 +138,7 @@ License: For each use you must have a valid license purchased only from above li
                                 <!--begin::Input group=-->
                                 <div class="fv-row mb-8">
                                     <!--begin::Email-->
-                                    <input type="text" placeholder="@SharedLocalizer["Username"]" name="kullanici_Ad" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control form-control-solid" id="kullanici_ad" />
+                                <input type="text" placeholder="@SharedLocalizer["Email"]" name="eposta" autocomplete="off" data-kt-translate="sign-in-input-email" class="form-control form-control-solid" id="eposta" />
                                     <!--end::Email-->
                                 </div>
                                 <!--end::Input group=-->
@@ -136,7 +159,7 @@ License: For each use you must have a valid license purchased only from above li
                                 <!--begin::Actions-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Submit-->
-                                    <button id="sign_in" type="submit" class="btn btn-primary me-2 flex-shrink-0">
+                                    <button id="sign_in" type="submit" class="btn btn-nutrixa me-2 flex-shrink-0">
                                         @SharedLocalizer["Signin"]
                                     </button>
                                     <!--end::Submit-->
@@ -188,9 +211,7 @@ License: For each use you must have a valid license purchased only from above li
             </div>
             <!--end::Aside-->
             <!--begin::Body-->
-            <div class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat bg-faydam" style="align-items:center;justify-content:center;">
-                <img src="~/assets/media/auth/faydam-mavi.png" width="300" height="300" />
-            </div>
+            <div class="d-none d-lg-flex flex-lg-row-fluid w-50 bgi-size-cover bgi-position-y-center bgi-position-x-start bgi-no-repeat bg-faydam" style="align-items:center;justify-content:center;"></div>
             <!--begin::Body-->
         </div>
         <!--end::Authentication - Sign-in-->

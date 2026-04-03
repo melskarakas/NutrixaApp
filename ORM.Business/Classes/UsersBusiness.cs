@@ -25,7 +25,7 @@ namespace ORM.Business
                 string md5Password = ORM.Shared.Base.GenerateDoubleMD5Password(password);
 
                 var parameters = new Dapper.DynamicParameters();
-                parameters.Add(nameof(users.user_name), username);
+                parameters.Add(nameof(users.email), username);
                 parameters.Add(nameof(users.password), md5Password);
                 parameters.Add(nameof(users.is_active), true);
                 parameters.Add(nameof(users.is_deleted), false);

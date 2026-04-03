@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Threading.Tasks;
 using ORM.Models.Models;
+using ORM.Models.Models.CustomModels;
 
 namespace APP.API.Controllers
 {
@@ -15,9 +16,11 @@ namespace APP.API.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IUserService _userService;
-        public AccountsController(IUserService userService)
+        private readonly ICalculateService _calculateService;
+        public AccountsController(IUserService userService,ICalculateService calculateService)
         {
             _userService = userService;
+            _calculateService = calculateService;
         }
 
         [HttpGet]
@@ -47,11 +50,19 @@ namespace APP.API.Controllers
             }
         }
         [HttpPut]
-        public async Task<ObjectResult> Update([FromBody] users user)
+        public async Task<ObjectResult> Update([FromBody] UserUpdateRequest updateRequest)
         {
             try
             {
-                var res = await _userService.Update(user);
+                if (!updateRequest.IsCalculationUpdate)
+                {
+                    updateRequest.UpdatedItem.bmr = _calculateService.CalculateBMR(updateRequest.UpdatedItem);
+                    updateRequest.UpdatedItem.tdee = _calculateService.CalculateTDEE(updateRequest.UpdatedItem);
+                    updateRequest.UpdatedItem.bmi = _calculateService.CalculateBMI(updateRequest.UpdatedItem);
+                    updateRequest.UpdatedItem.dpr = _calculateService.CalculateDailyProtein(updateRequest.UpdatedItem);
+                    updateRequest.UpdatedItem.age = _calculateService.CalculateAge(updateRequest.UpdatedItem);
+                }
+                var res = await _userService.Update(updateRequest.UpdatedItem);
                 return Ok(res);
             }
             catch (Exception ex)
@@ -64,6 +75,11 @@ namespace APP.API.Controllers
         {
             try
             {
+                user.bmr = _calculateService.CalculateBMR(user);
+                user.tdee = _calculateService.CalculateTDEE(user);
+                user.bmi = _calculateService.CalculateBMI(user);
+                user.dpr = _calculateService.CalculateDailyProtein(user);
+                user.age = _calculateService.CalculateAge(user);
                 var added = await _userService.AddUser(user);
                 return Ok(added);
             }
