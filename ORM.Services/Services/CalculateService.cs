@@ -45,6 +45,8 @@ namespace ORM.Services.Services
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[CalculateDailyProtein] Günlük protein ihtiyacı hesaplanırken bir  hata oluştu.", ex);
+                string json=JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[CalculateDailyProtein] Hata oluşan kullanıcı verisi: {json}");
                 return 0.0m;
             }
         }
@@ -67,12 +69,13 @@ namespace ORM.Services.Services
                         bmr += 5;
                     }
                 }
-                NutrixaLogger.LogInfo($"[CalculateBMR] BMR hesaplandı BMR : {bmr}");
+                NutrixaLogger.LogInfo($"[CalculateBMR] BMR hesaplandı BMR : {bmr} kcal");
             }
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[CalculateBMR] BMR hesaplanırken bir  hata oluştu.", ex);
-               
+               string json = JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[CalculateBMR] Hata oluşan kullanıcı verisi: {json}");
             }
             return bmr;
         }
@@ -109,6 +112,8 @@ namespace ORM.Services.Services
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[CalculateTDEE] Günlük kalori ihtiyacı hesaplanırken bir  hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[CalculateTDEE] Hata oluşan kullanıcı verisi: {json}");
                 return 0.0m;
             }
         }
@@ -126,6 +131,8 @@ namespace ORM.Services.Services
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[CalculateBMI] BMI hesaplanırken bir  hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[CalculateBMI] Hata oluşan kullanıcı verisi: {json}");
                 return 0.0m;
             }
         }
@@ -148,7 +155,8 @@ namespace ORM.Services.Services
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[CalculateTargetDays] Hedefe kalan gün sayısı hesaplanırken bir  hata oluştu.", ex);
-
+                string json = JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[CalculateTargetDays] Hata oluşan kullanıcı verisi: {json}");
                 return 0;
             }
         }
@@ -175,6 +183,8 @@ namespace ORM.Services.Services
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[CalculateAge] Yaş hesaplanırken bir  hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[CalculateAge] Hata oluşan kullanıcı verisi: {json}");
                 return age;
             }
         }

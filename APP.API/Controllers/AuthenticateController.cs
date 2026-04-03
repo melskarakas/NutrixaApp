@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using ORM.Services.IServices;
 using ORM.Services.Models;
+using ORM.Business.Classes;
 
 namespace APP.API.Controllers
 {
@@ -19,7 +20,7 @@ namespace APP.API.Controllers
             _userService = userService;
         }
         [HttpPost]
-        public async Task<IActionResult> GetToken([FromBody] APP.API.Models.AuthenticateRequest model)
+        public async Task<IActionResult> GetToken([FromBody] AuthenticateRequest model)
         {
             try
             {
@@ -33,6 +34,9 @@ namespace APP.API.Controllers
             }
             catch (Exception ex)
             {
+                NutrixaLogger.LogError("[GetToken] Token alınırken bir hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(model);
+                NutrixaLogger.LogInfo($"[GetToken] Hata oluşan model verisi: {json}");
                 return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
             }
         }

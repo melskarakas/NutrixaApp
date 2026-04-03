@@ -28,6 +28,8 @@ namespace ORM.Services.Services
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[AddFood] Food eklenirken bir  hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(food);
+                NutrixaLogger.LogInfo($"[AddFood] Hata oluşan food verisi: {json}");
             }
             return result;
         }
@@ -51,7 +53,8 @@ namespace ORM.Services.Services
             catch (Exception ex)
             {
 
-                NutrixaLogger.LogError("[DeleteFood] Food silinirken bir  hata oluştu.", ex);
+                NutrixaLogger.LogError($"[DeleteFood] Food silinirken bir  hata oluştu. Food ID: {food_id}", ex);
+
             }
             return result;
         }
@@ -84,7 +87,7 @@ namespace ORM.Services.Services
             }
             catch (Exception ex)
             {
-                NutrixaLogger.LogError("[GetFoodsByCategory] Food listesi getirilirken bir  hata oluştu.", ex);
+                NutrixaLogger.LogError($"[GetFoodsByCategory] Food listesi getirilirken bir  hata oluştu. Category ID: {category_id}", ex);
 
             }
             return foodList;
@@ -122,6 +125,8 @@ namespace ORM.Services.Services
             {
 
                 NutrixaLogger.LogError("[UpdateFood] Food güncellenirken bir  hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(food);
+                NutrixaLogger.LogInfo($"[UpdateFood] Hata oluşan food verisi: {json}");
 
             }
             return result;
