@@ -16,7 +16,6 @@ namespace ORM.Services.IServices
         Task<bool> Delete(object id);
         Task<bool> DeleteUser(users userObj);
         Task<users> GetUser(object id);
-        Task<users?> AddAndUpdateUser(object userObj);
         Task<bool> ExistsByEmail(string email);
     }
 }

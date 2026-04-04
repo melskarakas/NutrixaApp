@@ -9,6 +9,7 @@ using ORM.Services.Models;
 using APP.API.Auth;
 using ORM.Models.Models;
 using ORM.Services.Services;
+using ORM.Business.Classes;
 
 namespace APP.API.Controllers
 {
@@ -26,14 +27,24 @@ namespace APP.API.Controllers
         }
 
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] APP.API.Models.AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
         {
-            var result = await _userService.AuthenticateByEmail(model.Email, model.Password, model.IsPasswordMd5);
+            try
+            {
+                var result = await _userService.AuthenticateByEmail(model.Email, model.Password, model.IsPasswordMd5);
 
-            if (result == null || string.IsNullOrEmpty(result.Token))
-                return BadRequest(new { message = "Kullanıcı adı veya parola yanlış." });
+                if (result == null || string.IsNullOrEmpty(result.Token))
+                    return BadRequest(new { message = "Kullanıcı adı veya parola yanlış." });
 
-            return Ok(new { token = result.Token, is_registration = result.IsRegistration });
+                return Ok(new { token = result.Token, is_registration = result.IsRegistration });
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError("[Authenticate] Kimlik doğrulaması yapılırken bir hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(model);
+                NutrixaLogger.LogInfo($"[Authenticate] Hata oluşan model verisi: {json}");
+                return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
+            }
         }
 
         [HttpPost("create")]
@@ -85,6 +96,9 @@ namespace APP.API.Controllers
             }
             catch (Exception ex)
             {
+                NutrixaLogger.LogError("[UsersController-Create] Kullanıcı oluşturulurken bir hata oluştu.", ex);
+                string userJson = JsonHelper.SerializeObject(model);
+                NutrixaLogger.LogInfo($"[UsersController-Create] Eklenmek istenen kullanıcı verisi: {userJson}");
                 return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
             }
         }
