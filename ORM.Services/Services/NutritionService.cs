@@ -143,6 +143,57 @@ namespace ORM.Services.Services
             }
             return categoryList;
         }
+
+        public bool AddCategory(food_categories category)
+        {
+            try
+            {
+                if (category == null)
+                    return false;
+                return new GenericBusiness<food_categories>().Add(category);
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError("[AddCategory] Kategori eklenirken hata oluştu.", ex);
+                return false;
+            }
+        }
+
+        public bool DeleteCategory(Guid id)
+        {
+            try
+            {
+                if (id == Guid.Empty)
+                    return false;
+                food_categories category = new GenericBusiness<food_categories>().GetById(id);
+                if (category == null)
+                    return false;
+                category.is_active = false;
+                category.is_deleted = true;
+                category.modified_date = DateTime.Now;
+                return new GenericBusiness<food_categories>().Update(category);
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+        }
+
+        public bool UpdateCategory(food_categories category)
+        {
+            try
+            {
+                if (category == null)
+                    return false;
+                category.modified_date = DateTime.Now;
+                return new GenericBusiness<food_categories>().Update(category);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         #endregion
 
 

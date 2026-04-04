@@ -12,6 +12,9 @@ namespace ORM.Services.IServices
     {
         List<foods> GetFoodsByCategory(Guid category_id);
         List<food_categories> GetCategories(bool is_active);
+        bool AddCategory(food_categories category);
+        bool DeleteCategory(Guid id);
+        bool UpdateCategory(food_categories category);
         List<foods> GetAll(bool is_active);
         List<vw_foods> GetVwAll(bool is_active);
         bool AddFood(foods food);
