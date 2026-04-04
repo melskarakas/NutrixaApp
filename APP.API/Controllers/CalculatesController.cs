@@ -1,6 +1,7 @@
 ﻿using APP.API.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ORM.Business.Classes;
 using ORM.Models.Models;
 using ORM.Services.IServices;
 using ORM.Services.Services;
@@ -30,6 +31,9 @@ namespace APP.API.Controllers
             }
             catch (Exception ex)
             {
+                NutrixaLogger.LogError("[GetTargetDays] Hedef gün sayısı hesaplanırken bir hata oluştu.", ex);
+                string userJson = JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[GetTargetDays] Hata oluşan kullanıcı verisi: {userJson}");
                 return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
             }
         }

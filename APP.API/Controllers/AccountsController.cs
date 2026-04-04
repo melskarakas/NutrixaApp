@@ -7,6 +7,8 @@ using System;
 using System.Threading.Tasks;
 using ORM.Models.Models;
 using ORM.Models.Models.CustomModels;
+using ORM.Business.Classes;
+using System.Text.Json;
 
 namespace APP.API.Controllers
 {
@@ -33,6 +35,7 @@ namespace APP.API.Controllers
             }
             catch (Exception ex)
             {
+                NutrixaLogger.LogError($"[AccountsController-GetById] Kullanıcı ID'si: {id} ile kullanıcı bilgisi alınırken bir hata oluştu.", ex);
                 return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
             }
         }
@@ -46,6 +49,7 @@ namespace APP.API.Controllers
             }
             catch (Exception ex)
             {
+                NutrixaLogger.LogError("[AccountsController-GetAll] Tüm kullanıcılar alınırken bir hata oluştu.", ex);
                 return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
             }
         }
@@ -67,6 +71,9 @@ namespace APP.API.Controllers
             }
             catch (Exception ex)
             {
+                NutrixaLogger.LogError($"[AccountsController-Update] Kullanıcı  bilgisi güncellenirken bir hata oluştu.", ex);
+                string updatedItemJson=JsonHelper.SerializeObject(updateRequest.UpdatedItem);
+                NutrixaLogger.LogInfo($"[AccountsController-Update] Güncellenen kullanıcı bilgisi: {updatedItemJson}");
                 return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
             }
         }
@@ -85,6 +92,9 @@ namespace APP.API.Controllers
             }
             catch (Exception ex)
             {
+                NutrixaLogger.LogError($"[AccountsController-Add] Yeni kullanıcı eklenirken bir hata oluştu.", ex);
+                string userJson = JsonHelper.SerializeObject(user);
+                NutrixaLogger.LogInfo($"[AccountsController-Add] Eklenmeye çalışılan kullanıcı bilgisi: {userJson}");
                 return Problem(detail: "Genel Hata: " + ex.Message, statusCode: 500);
             }
         }

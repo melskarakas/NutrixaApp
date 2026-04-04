@@ -44,7 +44,7 @@ namespace ORM.Business.Classes
             roller.ActivateOptions();
 
             hierarchy.Root.AddAppender(roller);
-            hierarchy.Root.Level = Level.Error;
+            hierarchy.Root.Level = Level.Info;
             hierarchy.Configured = true;
         }
 
