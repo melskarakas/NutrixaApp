@@ -1,0 +1,125 @@
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Localization
+@inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
+@{
+    ViewData["Title"] = SharedLocalizer["CategoryDefinition"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h3 class="card-title align-items-start flex-column"><span class="card-label fw-bold fs-3 mb-1">@SharedLocalizer["CategoryDefinition"]</span></h3>
+        <div class="card-toolbar">
+            <button type="button" class="btn btn-sm btn-primary me-3" onclick="categoryModal('@Guid.Empty')">@SharedLocalizer["AddNew"]</button>
+            <button type="button" class="btn btn-sm btn-info" id="getButton" onclick="getCategories()">@SharedLocalizer["GetAll"]</button>
+
+        </div>
+
+    </div>
+    <div id="Div_CategoryTable"></div>
+</div>
+<script>
+    $(document).ready(function () {
+        getCategoryTable(true);
+    });
+    function getCategoryTable(is_active=null) {
+        showLoadingSwal();
+        $.post("/Nutrition/GetCategoryTable", { is_active: is_active },
+            function (data, textStatus, jqXHR) {
+                $('#Div_CategoryTable').empty().append(data);
+                hideLoadingSwal();
+                datatable = $("#table_category").DataTable({
+                    "info": false,
+                    'order': [],
+                    "pageLength": 10,
+                    "lengthChange": false,
+                    'columnDefs': [
+                        //{ orderable: false, targets: [0, 1, 2, 3] },
+                        { orderable: false, targets: 0 },
+                        { orderable: false, targets: 7 },
+                    ]
+                });
+                handleSearchDatatable();
+            }
+        );
+    }
+    function categoryModal(categoryId) {
+        $.post("/Nutrition/CategoryModal", { categoryId: categoryId },
+            function (data, textStatus, jqXHR) {
+                $('#GenericModal').empty().append(data).modal('show');
+            }
+        );
+    }
+    function deleteCategory(categoryId) {
+        $.post("/Nutrition/DeleteCategory", { categoryId: categoryId },
+            function (data, textStatus, jqXHR) {
+                if (data.success) {
+                    toastr.success(data.message);
+                    getCategoryTable(true);
+                       document.getElementById("getButton").innerText ="@Html.Raw(SharedLocalizer["GetActives"])";
+                } else {
+                    toastr.error(data.message);
+
+
+                }
+            }
+        );
+    }
+    function returnCategory(categoryId) {
+        $.post("/Nutrition/ReturnCategory", { categoryId: categoryId },
+            function (data, textStatus, jqXHR) {
+                if (data) {
+                    toastr.success("İşlem Başarılı");
+                    getCategoryTable(true);
+                    document.getElementById("getButton").innerText = "@Html.Raw(SharedLocalizer["GetActives"])";
+                } else {
+                    toastr.error("İşlem Başarısız");
+
+
+                }
+            }
+        );
+    }
+    function getCategories() {
+        var btnText = document.getElementById("getButton").innerText;
+        var newBtnText;
+        if (btnText == "@Html.Raw(SharedLocalizer["GetAll"])") {
+            getCategoryTable();
+           newBtnText= "@Html.Raw(SharedLocalizer["GetActives"])";
+        } else {
+            getCategoryTable(true);
+            newBtnText = "@Html.Raw(SharedLocalizer["GetAll"])";
+        }
+        document.getElementById("getButton").innerText = newBtnText;
+    }
+    function save() {
+        var id = $("#id").val();
+        var category_name = $("#category_name").val();
+        var is_active = $("#is_active").is(":checked");
+
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("category_name", category_name);
+        formData.append("is_active", is_active);
+        $.ajax({
+            url: '/Nutrition/SaveCategory', // Sunucu endpoint URL'i
+            type: 'POST',
+            data: formData,
+            processData: false, // FormData'yı jQuery'nin işlememesini sağlar
+            contentType: false, // İçerik türünü otomatik olarak ayarlar
+            success: function (response) {
+                if (response.success) {
+                    $("#GenericModal").modal('hide');
+                    toastr.success(response.message);
+                    getCategoryTable(true);
+                }
+                else {
+                    toastr.warning(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                toastr.error("Değişiklikler kaydedilemedi");
+            }
+        });
+}
+</script>
