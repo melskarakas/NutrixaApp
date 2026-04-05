@@ -129,17 +129,11 @@
   <data name="All" xml:space="preserve">
     <value>Tümü</value>
   </data>
-  <data name="Barcode" xml:space="preserve">
-    <value>Barkod</value>
-  </data>
   <data name="BMR" xml:space="preserve">
     <value>Bazal Metabolizma Hızı</value>
   </data>
   <data name="ChooseUnit" xml:space="preserve">
     <value>Birim Seçiniz</value>
-  </data>
-  <data name="ChooseWarehouse" xml:space="preserve">
-    <value>Depo Seçiniz</value>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Kapat</value>
@@ -149,12 +143,6 @@
   </data>
   <data name="CurrentPwd" xml:space="preserve">
     <value>Mevcut Şifre</value>
-  </data>
-  <data name="DailyBarcode" xml:space="preserve">
-    <value>Günlük Toplam Barkod Sayısı</value>
-  </data>
-  <data name="DailyBarcodeRead" xml:space="preserve">
-    <value>Günlük Okunan Barkod Sayısı</value>
   </data>
   <data name="DailyProteinWithoutWorkout" xml:space="preserve">
     <value>Günlük Protein İhtiyacı (Sporsuz Gün)</value>
@@ -170,9 +158,6 @@
   </data>
   <data name="Definitions" xml:space="preserve">
     <value>Tanımlar</value>
-  </data>
-  <data name="Department" xml:space="preserve">
-    <value>Departman</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>İndir</value>
@@ -219,12 +204,6 @@
   <data name="Mode" xml:space="preserve">
     <value>Tema</value>
   </data>
-  <data name="MonthlyBarcode" xml:space="preserve">
-    <value>Aylık Toplam Barkod Sayısı</value>
-  </data>
-  <data name="MonthlyBarcodeRead" xml:space="preserve">
-    <value>Aylık Okunan Barkod Sayısı</value>
-  </data>
   <data name="MyProfile" xml:space="preserve">
     <value>Profilim</value>
   </data>
@@ -242,9 +221,6 @@
   </data>
   <data name="OrderList" xml:space="preserve">
     <value>Sipariş Listesi</value>
-  </data>
-  <data name="Orders" xml:space="preserve">
-    <value>Siparişler</value>
   </data>
   <data name="PhoneNo" xml:space="preserve">
     <value>Telefon Numarası</value>
@@ -332,5 +308,77 @@
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Hoşgeldiniz</value>
+  </data>
+  <data name="AddCategory" xml:space="preserve">
+    <value>Kategori Ekle</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Yeni Ekle</value>
+  </data>
+  <data name="BMI" xml:space="preserve">
+    <value>Vücut Kitle İndeksi (VKİ)</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategoriler</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Kategori Adı</value>
+  </data>
+  <data name="CreateNutrition" xml:space="preserve">
+    <value>Besin Ekle</value>
+  </data>
+  <data name="DateOfBirth/Age" xml:space="preserve">
+    <value>Doğum Tarihi</value>
+  </data>
+  <data name="DPR" xml:space="preserve">
+    <value>Günlük Protein İhtiyacı</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Ad</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Cinsiyet</value>
+  </data>
+  <data name="GetAll" xml:space="preserve">
+    <value>Tümünü Getir</value>
+  </data>
+  <data name="Height/Weight" xml:space="preserve">
+    <value>Boy/Kilo</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Soyad</value>
+  </data>
+  <data name="Nutrition" xml:space="preserve">
+    <value>Besin</value>
+  </data>
+  <data name="NutritionReports" xml:space="preserve">
+    <value>BesinRaporları</value>
+  </data>
+  <data name="Passive" xml:space="preserve">
+    <value>Pasif</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Hedef</value>
+  </data>
+  <data name="TargetDays" xml:space="preserve">
+    <value>Hedef Gün</value>
+  </data>
+  <data name="TargetWeight" xml:space="preserve">
+    <value>Hedef Kilo</value>
+  </data>
+  <data name="UpdateCategory" xml:space="preserve">
+    <value>Kategori Güncelle</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Kilo</value>
+  </data>
+  <data name="WorkoutStatus" xml:space="preserve">
+    <value>Egzersiz Durumu</value>
+  </data>
+  <data name="GetActives" xml:space="preserve">
+    <value>Aktifleri Getir</value>
+  </data>
+  <data name="CategoryDefinition" xml:space="preserve">
+    <value>Kategori Tanımları</value>
   </data>
 </root>

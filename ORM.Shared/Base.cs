@@ -181,5 +181,20 @@ namespace ORM.Shared
             ProfesyonelSporcu = 5
 
         }
+        public enum ReturnType
+        {
+            [Display(Name = "Boş Değer")]
+            NullRequestData = 1,
+            [Display(Name = "Boş Değer")]
+            NullResponsetData = 2,
+            [Display(Name = "Değer/Değerler Benzersiz olmalı")]
+            NotUnique = 3,
+            [Display(Name = "Bağlantılı değer mevcut")]
+            ConnectData = 4,
+            [Display(Name = "İşlem Başarılı")]
+            Success = 5,
+            [Display(Name = "İşlem Hatalı")]
+            Failed = 6
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ORM.Shared.Base;
 
 namespace ORM.Services.Services
 {
@@ -134,19 +135,144 @@ namespace ORM.Services.Services
         #endregion
 
         #region Food Category İşlemleri
-        public List<food_categories> GetCategories(bool is_active)
+        public List<food_categories> GetCategories(bool? is_active)
         {
             List<food_categories> categoryList = new List<food_categories>();
             try
             {
-                string where = $" AND {nameof(food_categories.is_active)}='{is_active}'";
-                categoryList = new GenericBusiness<food_categories>().GetAllByCustomQuery(where).ToList();
+                if (is_active.HasValue)
+                {
+                    string where = $" AND {nameof(food_categories.is_active)}='{is_active}'";
+                    categoryList = new GenericBusiness<food_categories>().GetAllByCustomQuery(where).ToList();
+                }
+                else
+                {
+                    categoryList = new GenericBusiness<food_categories>().GetAll().ToList();
+                }
+                return categoryList;
+
             }
             catch (Exception ex)
             {
                 NutrixaLogger.LogError("[GetCategories] Kategori listesi getirilirken hata oluştu.", ex);
             }
             return categoryList;
+        }
+
+        public ReturnType AddCategory(food_categories category)
+        {
+            try
+            {
+                if (category == null)
+                    return ReturnType.NullRequestData;
+                if (!UniqueCategoryName(category.category_name))
+                    return ReturnType.NotUnique;
+                category.id = Guid.NewGuid();
+                bool res= new GenericBusiness<food_categories>().Add(category);
+                return res ? ReturnType.Success : ReturnType.Failed;
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError("[AddCategory] Kategori eklenirken hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(category);
+                NutrixaLogger.LogInfo($"[AddCategory] Hata oluşan kategori verisi: {json}");
+                return ReturnType.Failed; ;
+            }
+        }
+        private bool UniqueCategoryName(string name)
+        {
+            bool unique = false;
+            try
+            {
+                string where = $" AND TRIM({nameof(food_categories.category_name)}) ILIKE TRIM('{name}')";
+                var existingCategory = new GenericBusiness<food_categories>().GetAllByCustomQuery(where, 1, "").FirstOrDefault();
+                unique = existingCategory == null;
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError($"[UniqueCategoryName] Kategori adı kontrol edilirken hata oluştu. Kategori Adı: {name}", ex);
+            }
+            return unique;
+        }
+        public ReturnType DeleteCategory(Guid id)
+        {
+            try
+            {
+                if (id == Guid.Empty)
+                    return ReturnType.NullRequestData;
+                food_categories category = new GenericBusiness<food_categories>().GetById(id);
+                if (category == null)
+                    return ReturnType.NullResponsetData;
+                if (GetFoodsByCategory(id).Count > 0)
+                    return ReturnType.ConnectData;
+                category.is_active = false;
+                category.is_deleted = true;
+                category.modified_date = DateTime.Now;
+                bool res=new GenericBusiness<food_categories>().Update(category);
+                return res ? ReturnType.Success : ReturnType.Failed;
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError($"[DeleteCategory] Kategori silinirken hata oluştu. Kategori ID: {id}", ex);
+                return ReturnType.Failed;
+            }
+        }
+
+        public ReturnType UpdateCategory(food_categories category)
+        {
+            try
+            {
+                if (category == null)
+                    return ReturnType.NullRequestData;
+                category.modified_date = DateTime.Now;
+                bool res= new GenericBusiness<food_categories>().Update(category);
+                return res ? ReturnType.Success : ReturnType.Failed;
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError("[UpdateCategory] Kategori güncellenirken hata oluştu.", ex);
+                string json = JsonHelper.SerializeObject(category);
+                NutrixaLogger.LogInfo($"[UpdateCategory] Hata oluşan kategori verisi: {json}");
+                return ReturnType.Failed;
+            }
+        }
+
+        public bool ReturnCategory(Guid id)
+        {
+            try
+            {
+                if (id == Guid.Empty)
+                    return false;
+                food_categories category = new GenericBusiness<food_categories>().GetById(id);
+                if (category == null)
+                    return false;
+                category.is_active = true;
+                category.is_deleted = false;
+                category.modified_date = DateTime.Now;
+                return new GenericBusiness<food_categories>().Update(category);
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError($"[ReturnCategory] Kategori geri getirilirken hata oluştu. Kategori ID: {id}", ex);
+                return false;
+            }
+        }
+
+        public food_categories GetCategoryById(Guid id)
+        {
+            food_categories category = new food_categories();
+            try
+            {
+                if (id!=Guid.Empty)
+                {
+                    category=new GenericBusiness<food_categories>().GetById(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                NutrixaLogger.LogError($"[GetCategoryById] Kategori getirilirken hata oluştu. Kategori ID: {id}", ex);
+            }
+            return category;
         }
         #endregion
 

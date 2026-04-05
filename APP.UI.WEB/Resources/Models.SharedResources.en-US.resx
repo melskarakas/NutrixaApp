@@ -135,12 +135,6 @@
   <data name="BMR" xml:space="preserve">
     <value>Basal Metabolic Rate</value>
   </data>
-  <data name="ChooseUnit" xml:space="preserve">
-    <value>Choose Unit</value>
-  </data>
-  <data name="ChooseWarehouse" xml:space="preserve">
-    <value>Choose Warehouse</value>
-  </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="CurrentPwd" xml:space="preserve">
     <value>Current Password</value>
-  </data>
-  <data name="DailyBarcode" xml:space="preserve">
-    <value>Number of Total Barcode Daily</value>
-  </data>
-  <data name="DailyBarcodeRead" xml:space="preserve">
-    <value>Number of Barcode Read Daily</value>
   </data>
   <data name="DailyProteinWithoutWorkout" xml:space="preserve">
     <value>Daily Protein Requirement (No Exercise Day)</value>
@@ -186,12 +174,6 @@
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="Entry" xml:space="preserve">
-    <value>Entry</value>
-  </data>
-  <data name="Exit" xml:space="preserve">
-    <value>Exit</value>
-  </data>
   <data name="Faydam" xml:space="preserve">
     <value>Faydam İnnovation</value>
   </data>
@@ -218,12 +200,6 @@
   </data>
   <data name="Mode" xml:space="preserve">
     <value>Mode</value>
-  </data>
-  <data name="MonthlyBarcode" xml:space="preserve">
-    <value>Number of Total Barcode Month</value>
-  </data>
-  <data name="MonthlyBarcodeRead" xml:space="preserve">
-    <value>Number of Barcode Read Monthly</value>
   </data>
   <data name="MyProfile" xml:space="preserve">
     <value>My Profile</value>
@@ -332,5 +308,77 @@
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
+  </data>
+  <data name="AddCategory" xml:space="preserve">
+    <value>Add Category</value>
+  </data>
+  <data name="AddNew" xml:space="preserve">
+    <value>Add New</value>
+  </data>
+  <data name="BMI" xml:space="preserve">
+    <value>Body Mass Index (BMI)</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>Category Name</value>
+  </data>
+  <data name="CreateNutrition" xml:space="preserve">
+    <value>Create Nutrition </value>
+  </data>
+  <data name="DateOfBirth/Age" xml:space="preserve">
+    <value>Date of Birth / Age</value>
+  </data>
+  <data name="DPR" xml:space="preserve">
+    <value>Daily Protein Requirement</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
+  </data>
+  <data name="GetAll" xml:space="preserve">
+    <value>Get All</value>
+  </data>
+  <data name="Height/Weight" xml:space="preserve">
+    <value>Height/Weight</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Nutrition" xml:space="preserve">
+    <value>Nutrition</value>
+  </data>
+  <data name="NutritionReports" xml:space="preserve">
+    <value>Nutrition Reports</value>
+  </data>
+  <data name="Passive" xml:space="preserve">
+    <value>Passive</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="TargetDays" xml:space="preserve">
+    <value>Target Days</value>
+  </data>
+  <data name="TargetWeight" xml:space="preserve">
+    <value>TargetWeight</value>
+  </data>
+  <data name="UpdateCategory" xml:space="preserve">
+    <value>Update Category</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Weight</value>
+  </data>
+  <data name="WorkoutStatus" xml:space="preserve">
+    <value>Workout Status</value>
+  </data>
+  <data name="GetActives" xml:space="preserve">
+    <value>Get Actives</value>
+  </data>
+  <data name="CategoryDefinition" xml:space="preserve">
+    <value>Category Definitions</value>
   </data>
 </root>

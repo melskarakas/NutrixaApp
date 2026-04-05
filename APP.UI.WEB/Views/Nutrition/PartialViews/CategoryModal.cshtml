@@ -1,0 +1,57 @@
+﻿@model food_categories
+@using Microsoft.Extensions.Localization
+@using ORM.Models.Models
+@using ORM.Shared
+@using static ORM.Shared.Base
+@inject IStringLocalizer<APP.UI.WEB.Models.SharedResources> SharedLocalizer
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mw-850px">
+    @{ 
+        string status=Model.is_active ? SharedLocalizer["Active"] : SharedLocalizer["Passive"];
+    }
+    <div class="modal-content shadow-none">
+
+        <div class="modal-header" id="kt_modal_report_header">
+            <h2 class="fw-bold">
+                @if (Model.id != Guid.Empty)
+                {
+                    @SharedLocalizer["UpdateCategory"]
+                }
+                else
+                {
+                    @SharedLocalizer["AddCategory"]
+                }
+            </h2>
+            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal" style="background-color:transparent !important;">
+                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+            </div>
+        </div>
+
+        <div class="modal-body px-5 my-7">
+            <div class="row g-9 mb-8">
+                @Html.HiddenFor(x => x.id)
+                @Html.HiddenFor(x=>x.created_date)
+                <div class="col-md-12 fv-row fv-plugins-icon-container" data-select2-id="select2-data-131-u9nz">
+                    <label class="required fs-6 fw-semibold mb-2">@SharedLocalizer["CategoryName"]</label>
+                    @Html.TextBoxFor(model => model.category_name, new { @class = "form-control form-control-solid", placeholder = SharedLocalizer["CategoryName"] })
+                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" id="catwgory_name_valid"></div>
+                </div>
+            </div>
+            <div class="row g-9 mb-8">
+                <div class="col-md-12 fv-row fv-plugins-icon-container">
+                    <label class="form-check form-switch form-check-custom form-check-solid">
+                        @*<input class="form-check-input" type="checkbox" value="1" checked="checked" />*@
+                        @Html.CheckBoxFor(x=>x.is_active,new {@class= "form-check-input"})
+                        <span class="form-check-label fw-semibold text-muted">
+                            @Html.Raw(status)
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="save()" class="btn btn-primary">@SharedLocalizer["Save"]</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">@SharedLocalizer["Close"]</button>
+        </div>
+
+    </div>
+</div>

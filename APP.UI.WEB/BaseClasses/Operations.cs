@@ -183,7 +183,7 @@ namespace APP.UI.WEB.BaseClasses
                 throw ex;
             }
         }
-        public static bool PUT<T>(string functionName, T BodyObject)
+        public static string PUT<T>(string functionName, T BodyObject)
         {
             try
             {
@@ -222,7 +222,7 @@ namespace APP.UI.WEB.BaseClasses
                     }
                 }
 
-                return Convert.ToBoolean(Result);
+                return Result.ToString();
             }
             catch (WebException ex)
             {

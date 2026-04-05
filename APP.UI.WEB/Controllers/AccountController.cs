@@ -67,7 +67,7 @@ namespace APP.UI.WEB.Controllers
                 IsCalculationUpdate = is_calculation_update
             };
             var res = Operations.PUT("Accounts/Update", updateRequest);
-            if (res)
+            if (res=="true")
             {
                 return Json(new { success = true, message = "İşlem başarılı" });
             }
@@ -97,7 +97,7 @@ namespace APP.UI.WEB.Controllers
         }
         public ActionResult SaveUser(users user, string new_pwd)
         {
-            string res = "";
+            string result = "";
             if (user.id != Guid.Empty)
             {
                 user.password = !String.IsNullOrEmpty(new_pwd) ? ORM.Shared.Base.GenerateDoubleMD5Password(new_pwd) : user.password;
@@ -106,17 +106,16 @@ namespace APP.UI.WEB.Controllers
                     UpdatedItem = user,
                     IsCalculationUpdate = false
                 };
-                bool result = Operations.PUT("Accounts/Update", updateRequest);
-                res = result.ToString();
+                 result = Operations.PUT("Accounts/Update", updateRequest);
             }
             else
             {
                 user.id = Guid.NewGuid();
                 user.password = !String.IsNullOrEmpty(new_pwd) ? new_pwd : Guid.NewGuid().ToString().Split('-')[0];
-                res = Operations.POST("Accounts/Add", user);
+                result = Operations.POST("Accounts/Add", user);
             }
 
-            return Json(res);
+            return Json(result);
         }
         public ActionResult DeleteUser(Guid userId)
         {
